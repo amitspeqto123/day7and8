@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 export const signupService = async (data) => {
-  const { name, email, password } = data;
+  const { name, email, password, role} = data;
   const existsUser = await User.findOne({ email });
   if (existsUser) {
     throw new Error("User already exists");
@@ -13,6 +13,7 @@ export const signupService = async (data) => {
     name,
     email,
     password: hashPassword,
+    role: role || "USER"
   });
 };
 
