@@ -2,6 +2,14 @@
   "name": "day7and8",
   "version": "1.0.0",
   "description": "",
+  "homepage": "https://github.com/amitspeqto123/day7and8#readme",
+  "bugs": {
+    "url": "https://github.com/amitspeqto123/day7and8/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amitspeqto123/day7and8.git"
+  },
   "license": "ISC",
   "author": "",
   "type": "module",
@@ -11,9 +19,13 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "body-parser": "^2.2.2",
     "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.3",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.5"
-  }
+  },
+  "devDependencies": {}
 }
