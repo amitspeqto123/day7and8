@@ -24,8 +24,8 @@ export const createProductService = async (data) => {
   return product;
 };
 // get all product
-export const getAllProductService = async () => {
-  return await Product.find().populate("categoryId");;
+export const getAllProductService = async (filter, sortOption) => {
+  return await Product.find(filter).sort(sortOption).populate("categoryId");;
 };
 // get product by id
 export const getProductByIdService = async (id) => {
@@ -56,3 +56,8 @@ export const updateProductService = async (id, data) => {
 
   return updatedProduct;
 };
+
+// Performd Queries on product
+export const getProductByBrandService = async (brand)=>{
+  return await Product.find({brand});
+}

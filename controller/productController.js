@@ -2,6 +2,7 @@ import {
   createProductService,
   deleteProductService,
   getAllProductService,
+  getProductByBrandService,
   getProductByIdService,
   updateProductService,
 } from "../service/productService.js";
@@ -14,7 +15,7 @@ export const createProduct = async (req, res) => {
       success: true,
       message: "Product created successfully",
       total: 1,
-      product
+      product,
     });
   } catch (error) {
     console.log("Error in ceating product", error);
@@ -29,12 +30,34 @@ export const createProduct = async (req, res) => {
 // get all product
 export const getAllProuct = async (req, res) => {
   try {
-    const products = await getAllProductService();
+    const { brand, name, minPrice, maxPrice, sort } = req.query;
+    let filter = {};
+    if (brand) {
+      filter.brand = brand;
+    }
+    if (name) {
+      filter.name = name;
+    }
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) filter.price.$gte = Number(minPrice);
+      if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+    let sortOption = {};
+    if (sort) {
+      if (sort.startsWith("-")) {
+        sortOption[sort.substring(1)] = -1;
+      } else {
+        sortOption[sort] = 1;
+      }
+    }
+
+    const products = await getAllProductService(filter, sortOption);
     res.status(200).json({
       success: true,
-      message: "All Product fetched successfully",
+      message: "Product fetched successfully",
       total: products.length,
-      products
+      products,
     });
   } catch (error) {
     console.log("Error in fetching product", error);
@@ -90,13 +113,33 @@ export const updateProduct = async (req, res) => {
       success: true,
       message: "Product updated successfully..",
       total: 1,
-      newUpdatedProduct
+      newUpdatedProduct,
     });
   } catch (error) {
     console.log(error.message);
     res.status(500).json({
       success: false,
       message: "Internal server error",
+    });
+  }
+};
+
+// Perform queeries
+export const getProductByBrand = async (req, res) => {
+  try {
+    const { brand } = req.query;
+    const products = await getProductByBrandService(brand);
+    res.status(200).json({
+      success: true,
+      message: "Product fetched by brand",
+      total: products.length,
+      products,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({
+      success: false,
+      message: error.message,
     });
   }
 };

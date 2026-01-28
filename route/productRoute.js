@@ -16,7 +16,8 @@ router.delete("/admin/delete/:id", isAuthenticated, isAdmin, deleteProduct);
 router.put("/admin/update/:id", isAuthenticated, isAdmin, updateProduct);
 
 // user + admin
-router.get("/all", isAuthenticated, getAllProuct);
+router.get("/", isAuthenticated, getAllProuct);
+//router.get("/", isAuthenticated, getAllProuct); // for filter
 router.get("/:id", isAuthenticated, getProductById);
 
 export default router;

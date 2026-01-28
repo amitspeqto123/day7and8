@@ -32,7 +32,7 @@ export const loginService = async (data) => {
       userId: user._id,
       email: user.email,
     },
-    "secretKey123",
+    process.env.JWT_SECRET,
     { expiresIn: "1h" },
   );
   return {
