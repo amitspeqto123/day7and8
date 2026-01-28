@@ -2,8 +2,12 @@ import {
   createProductService,
   deleteProductService,
   getAllProductService,
-  getProductByBrandService,
   getProductByIdService,
+  getProductsByPriceRangeService,
+  getProductsSortedByPriceService,
+  getProductStatsService,
+  getProductsWithCategoryByBrandService,
+  getProductsWithCategoryService,
   updateProductService,
 } from "../service/productService.js";
 
@@ -124,22 +128,90 @@ export const updateProduct = async (req, res) => {
   }
 };
 
-// Perform queeries
-export const getProductByBrand = async (req, res) => {
+// here aggreagations and lookup logic
+export const getProductWithCategory = async (req, res) => {
   try {
-    const { brand } = req.query;
-    const products = await getProductByBrandService(brand);
+    const products = await getProductsWithCategoryService();
     res.status(200).json({
       success: true,
-      message: "Product fetched by brand",
+      message: "Product fetched with category",
       total: products.length,
       products,
     });
   } catch (error) {
     console.log(error.message);
-    res.status(400).json({
+    res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Internal server error",
+    });
+  }
+};
+
+export const getProductWithCategoryByBrand = async (req, res) => {
+  try {
+    const { brand } = req.query;
+    const products = await getProductsWithCategoryByBrandService(brand);
+    res.status(200).json({
+      success: true,
+      message: "Product fetched with category by brand",
+      total: products.length,
+      products,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+// Products + Category sorted by Price
+export const getProductsSortedByPrice = async (req, res) => {
+  try {
+    const { sort } = req.query;
+    const sortOrder = sort === "desc" ? -1 : 1; // default asc
+    const products = await getProductsSortedByPriceService(sortOrder);
+    res.status(200).json({
+      success: true,
+      message: "Products fetched with category sorted by price",
+      total: products.length,
+      products,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+export const getProductsByPriceRange = async (req, res) => {
+  try {
+    const { minPrice, maxPrice } = req.query;
+    const products = await getProductsByPriceRangeService(minPrice, maxPrice);
+    res.status(200).json({
+      success: true,
+      message: "Products fetched with category in price range",
+      total: products.length,
+      products,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+export const getProductStats = async (req, res) => {
+  try {
+    const stats = await getProductStatsService();
+    res.status(200).json({
+      success: true,
+      message: "Product stats fetched successfully",
+      totalBrands: stats.length,
+      stats,
+    });
+  } catch (error) {
+    console.log("Error in fetching stats", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
     });
   }
 };

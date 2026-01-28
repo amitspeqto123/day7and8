@@ -143,3 +143,158 @@
  *       200:
  *         description: Product deleted successfully
  */
+
+/**
+ * @swagger
+ * /products/with-category:
+ *   get:
+ *     summary: Get all products with category details
+ *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Products fetched successfully with category
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                 message:
+ *                   type: string
+ *                 total:
+ *                   type: number
+ *                 products:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ */
+
+/**
+ * @swagger
+ * /products/brand:
+ *   get:
+ *     summary: Get products with category filtered by brand
+ *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: brand
+ *         schema:
+ *           type: string
+ *         description: Filter by brand
+ *     responses:
+ *       200:
+ *         description: Products fetched successfully by brand with category
+ */
+
+/**
+ * @swagger
+ * /products/sort:
+ *   get:
+ *     summary: Get products with category sorted by price
+ *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *           enum: [asc, desc]
+ *         description: Sort products by price ascending (asc) or descending (desc)
+ *     responses:
+ *       200:
+ *         description: Products fetched successfully sorted by price
+ */
+
+/**
+ * @swagger
+ * /products/price-range:
+ *   get:
+ *     summary: Get products with category filtered by price range
+ *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: minPrice
+ *         schema:
+ *           type: number
+ *         description: Minimum price
+ *       - in: query
+ *         name: maxPrice
+ *         schema:
+ *           type: number
+ *         description: Maximum price
+ *     responses:
+ *       200:
+ *         description: Products fetched successfully in the given price range
+ */
+
+/**
+ * @swagger
+ * /products/stats:
+ *   get:
+ *     summary: Get aggregated product statistics (brand-wise)
+ *     tags:
+ *       - Products
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Product stats fetched successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Product stats fetched successfully
+ *                 totalBrands:
+ *                   type: integer
+ *                   example: 3
+ *                 stats:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         example: Puma
+ *                       totalProducts:
+ *                         type: integer
+ *                         example: 5
+ *                       avgPrice:
+ *                         type: number
+ *                         example: 1200
+ *                       minPrice:
+ *                         type: number
+ *                         example: 999
+ *                       maxPrice:
+ *                         type: number
+ *                         example: 1599
+ *                       totalQuantity:
+ *                         type: integer
+ *                         example: 15
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Internal server error
+ */
