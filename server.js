@@ -7,6 +7,7 @@ const port = 8080;
 import productRoute from "./route/productRoute.js"
 import categoryRoute from "./route/categoryRoute.js"
 import authRoute from "./route/authRoute.js"
+import orderRoute from "./route/orderRoute.js"
 
 // Middlewares
 app.use(express.json()); 
@@ -18,6 +19,7 @@ databaseConnection();
 app.use("/products", productRoute);
 app.use("/category", categoryRoute);
 app.use("/auth", authRoute);
+app.use("/order", orderRoute);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
