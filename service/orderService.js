@@ -28,6 +28,18 @@ export const createOrderService = async (userId, data) => {
   return order;
 };
 
-export const allOrderService = async () =>{
-    return await Order.find();
-}
+export const allOrderService = async () => {
+  return await Order.find()
+    .populate("user", "name email role")
+    .populate("product", "name price brand");
+};
+
+export const getOrderByIdService = async (id) => {
+  const order = await Order.findById(id);
+  if (!order) {
+    throw new Error("Order not found");
+  }
+  return await Order.findById(order._id)
+    .populate("user", "name email role")
+    .populate("product", "name price brand");
+};
